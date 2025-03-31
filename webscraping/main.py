@@ -4,6 +4,7 @@ import os
 import zipfile
 
 def download_pdfs(url, download_folder):
+    """Executa a raspagem e faz o dowload dos arquivos PDF."""
     response = requests.get(url)
     if response.status_code != 200:
         print("Erro ao acessar a página.")
@@ -38,12 +39,14 @@ def download_pdfs(url, download_folder):
     return downloaded_files
 
 def zip_files(files, zip_name):
+    """Compacta os arquivos PDF em um ZI."""
     with zipfile.ZipFile(zip_name, 'w') as zipf:
         for file in files:
             zipf.write(file, os.path.basename(file))
     print(f"Arquivos compactados em {zip_name}")
-
-if __name__ == "__main__":
+    
+def main():
+    """""Função principal para executar o download e compactação dos PDFs."""
     url = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
     download_folder = "downloads"
     zip_name = "anexos.zip"
@@ -52,3 +55,6 @@ if __name__ == "__main__":
     
     if pdf_files:
         zip_files(pdf_files, zip_name)
+
+if __name__ == "__main__":
+    main()
